@@ -85,3 +85,122 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+let students = [];
+
+
+// Add student
+function addStudent() {
+
+    let name = readlineSync.question("Student name: ");
+    let id = readlineSync.questionInt("Student ID: ");
+
+    let scores = [];
+
+    let count = readlineSync.questionInt("How many scores? ");
+
+    for (let i = 0; i < count; i++) {
+        let score = readlineSync.questionInt("Enter score " + (i + 1) + ": ");
+        scores.push(score);
+    }
+
+    students.push({
+        name: name,
+        id: id,
+        scores: scores
+    });
+
+    console.log("Student added successfully.");
+}
+
+
+// Find average
+function average(scores) {
+
+    let total = 0;
+
+    for (let i = 0; i < scores.length; i++) {
+        total += scores[i];
+    }
+
+    return total / scores.length;
+}
+
+
+// Display students
+function displayStudents() {
+
+    if (students.length == 0) {
+        console.log("No students found.");
+        return;
+    }
+
+    for (let i = 0; i < students.length; i++) {
+
+        console.log("\nName: " + students[i].name);
+        console.log("ID: " + students[i].id);
+        console.log("Scores: " + students[i].scores);
+        console.log("Average: " + average(students[i].scores).toFixed(2));
+
+    }
+}
+
+
+// Calculate specific student's average
+function findAverage() {
+
+    let id = readlineSync.questionInt("Enter student ID: ");
+
+    for (let i = 0; i < students.length; i++) {
+
+        if (students[i].id == id) {
+
+            console.log(
+                students[i].name + "'s average: " +
+                average(students[i].scores).toFixed(2)
+            );
+
+            return;
+        }
+    }
+
+    console.log("Student not found.");
+}
+
+
+// Main menu
+function main() {
+
+    let choice = 0;
+
+    while (choice != 4) {
+
+        console.log("\nSTUDENT RECORD SYSTEM");
+        console.log("1. Add student");
+        console.log("2. Display students");
+        console.log("3. Calculate average");
+        console.log("4. Quit");
+
+        choice = readlineSync.questionInt("Enter choice: ");
+
+        if (choice == 1) {
+            addStudent();
+        }
+        else if (choice == 2) {
+            displayStudents();
+        }
+        else if (choice == 3) {
+            findAverage();
+        }
+        else if (choice == 4) {
+            console.log("Goodbye!");
+        }
+        else {
+            console.log("Invalid choice.");
+        }
+    }
+}
+
+
+main()
